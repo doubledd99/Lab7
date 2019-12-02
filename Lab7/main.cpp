@@ -29,8 +29,8 @@ int main() {
 	return 0;
 }
 int playerTurn(char pos[10][10]) {
-
-	return 1;
+	
+	return 0;
 }
 //int main2() {
 //	bool keepPlaying = false;
