@@ -8,757 +8,540 @@
 
 using namespace std; //inherits standard namespace
 
-//int hitDetection();
-//void memoryReset();
-//void ships();
-//void playAgain(bool keepPlaying);
-//int shipPlacement();
-//int playerTurn();
-int battleship();
-void setup();
-void display(char grid[10][10]);
-int menu();
-//int fireForEffect();
-int playerSetShip(int shipNumber);
-int coordinateSelection(int max);
-//int playerSetDirection(int shipNumber);
-//int checkAndDisplay(int tempX, int tempY, int direction, int length, int grid[10][10]);
+int battleship();//function prototype for battleship function
+void setup();//function prototype for setup which is called to start program
+void display(char grid[10][10]);//function prototype to easily display information to screen
+int menu();//function prototype that displays a menu and has user pick options.
+int playerSetShip(int shipNumber); //Function prototype to let user pick origin point for ship
+int coordinateSelection(int max); //function prototype that ensures user's input is valid
 
-
-int main() {
-	bool keepPlaying = false;
-	bool win = true;
+int main() {//main function call
+	bool keepPlaying = false;//bool value to see if user wants to keep playing
+	bool win = true; //bool value to see if game should be reset
 	do {
-		//playerHome();
-		battleship();
-		//setup();
+		battleship();//function call the "game" itself
 		do {
-			//playerTurn();
-			//winCheck();
-			//cpuTurn();
-			//winCheck();
-		} while (!win);
-	} while (keepPlaying);
-	//playerHome();
+		} while (!win);//if win condition true game is reset
+	} while (keepPlaying);//if user wants to keep playing game resets
 	return 0;
 }
-int playerTurn() {
-	
-	return 0;
-}
-void display(char grid[10][10],int length) {
-	int x = 0;
-	int y = 0;
-	cout << endl<< endl << endl;
-	for (int i = 0; i < 10; i++) {
-		if (x != 0 && y != 0)
-			cout << "	";
-		while (y < 11) {
-			if (y != 0)
-				cout << y << "	";
+
+void display(char grid[10][10],int length) { //function definition that displays grid to screen
+	int x = 0;//x coordinate to select location in 2D array
+	int y = 0; // y coord to select location in 2D array
+	cout << endl<< endl << endl;// spaces for aestetics
+	for (int i = 0; i < 10; i++) { //outer for loop to cycle through array
+		if (x != 0 && y != 0) //adds space for begining of scale for grid
+			cout << "	";//adds space
+		while (y < 11) {//logic to display scale for game
+			if (y != 0)//ensures space lines up numbers
+				cout << y << "	"; // adds correct spacing
 			else
-				cout << "	";
+				cout << "	";//fixes spacing if only one digit number
 			y++;
 		};
-		cout << endl;
-		if (y == 11 && x == 0)
+		cout << endl; //spacing for after scale is finished
+		if (y == 11 && x == 0)//
 			x++;
-			cout << x;
-		x++;
-		for (int j = 0; j < 10; j++) {
-			cout << "	" << grid[i][j];
+			cout << x; // displays numbers down the left side of screen
+		x++;//increments x by 1
+		for (int j = 0; j < 10; j++) {//inner for loop to cycle thru X coordinates
+			cout << "	" << grid[i][j];// adds spacing and displays grid character
 		}
-		cout << endl;
+		cout << endl;//new line
 	}
 
 }
-//int checkAndDisplay(int tempX, int tempY, int direction, int length, char grid[10][10]) {
-//	int x;
-//	int y;
-//	bool check = false;
-//	
-//	if (direction == 1) {
-//		for (length > 0; length--;) {
-//			if (grid[x][y-length] == '~') {
-//				grid[x][y-length] = '#';
-//			}
-//		}
-//	}
-//	return 0;
-//}
 
-void setup() {
-	string input;
-	cout << endl << "Welcome to battleship." << endl << endl << "Press any key to continue";
-	cin >> input;
+void setup() {//function definition for beginning of program run
+	string input; //used to intake user input "press any key to continue"
+	cout << endl << "Welcome to battleship." << endl << endl << "Press any key to continue"; // if user presses any key the game continues
+	cin >> input;//intakes user input
 }
 
-int battleship() {
-	//{	struct ship {
-	//	int size;
-	//	int health;
-	//	int ypos;
-	//	int xpos;
-	//	int yposf;
-	//	int xposf;
-	//};
-	//enum shipType {
-	//	carrier, battleship, cruiser, submarine, destroyer
-	//};
-	//struct fleet {
-	//	ship carrier;
-	//	ship battleship;
-	//	ship cruiser;
-	//	ship sumbarine;
-	//	ship destroyer;
-	//	//carrier.size = 5;
-	//	/*p5.carrier.health = 5;
-	//	p4.battleship.size = 4;
-	//	p4.battleship.health = 4;
-	//	p3.cruiser.size = 3;
-	//	p3.cruiser.health = 3;*/
-	//};
-	//fleet Player;
-	//fleet Computer;
-	//Player.battleship.health = 5;
-	//Player.battleship.size = 5;
-	//Player.carrier.health = 4;
-	//Player.carrier.size = 4;
-	//Player.cruiser.health = 3;
-	//Player.cruiser.size = 3;
-	//Player.sumbarine.health = 3;
-	//Player.sumbarine.size = 3;
-	//Player.destroyer.health = 2;
-	//Player.destroyer.size = 2;
-	//Computer.battleship.health = 5;
-	//Computer.battleship.size = 5;
-	//Computer.carrier.health = 4;
-	//Computer.carrier.size = 4;
-	//Computer.cruiser.health = 3;
-	//Computer.cruiser.size = 3;
-	//Computer.sumbarine.health = 3;
-	//Computer.sumbarine.size = 3;
-	//Computer.destroyer.health = 2;
-	//Computer.destroyer.size = 2;
-
-
-	int wins = 0;
-	int losses = 0;
-	bool keepPlaying = 1;
-	int playerChoiceX;
-	int playerChoiceY;
-	int computerChoiceX;
-	int computerChoiceY;
-	bool win = true;
-	int y=0;
-	int x=0;
-	char cpuHome[10][10];
-	char cpuAway[10][10];
-	char playerHome[10][10];
-	char playerAway[10][10];
-	int length = 100;
-	int menuSelection;
-	int direction;
-	int xPos;
-	int yPos;
+int battleship() {//game's 'game engine' of sorts, handles all aspects of game
+	int wins = 0; //win counter initialized to be 0
+	int losses = 0;//loss counter initialized to be 0
+	bool keepPlaying = true;//if the user wished to keep playing value is true
+	//int playerChoiceX;
+	//int playerChoiceY;
+	//int computerChoiceX;
+	//int computerChoiceY;
+	bool win = true;//if user win conditions are met game closes and adds to tally
+	int y=0;//variable used to make scale
+	int x=0;//variable used to make scale
+	char cpuHome[10][10];//grid for cpu player ships
+	char cpuAway[10][10];//grid for cpu player hit and misses
+	char playerHome[10][10];//grid for player ships
+	char playerAway[10][10];//grid for player hits and misses
+	int length = 100;//used to declare size of array to pass
+	int menuSelection;//local variable to determine which path to follow when user selects from menu
+	int direction;//which direction the user wishes to go after origin point chosen.
+	//int xPos;
+	//int yPos;
 	do {
-		win = false;
-		setup();
-		for (int i = 0; i < 10; i++) {
-			//cout << "	";
-			while (y < 11) {
-				//cout << y << "	";
-				y++;
+		win = false;//win condition set to false at beginning of each game
+		setup();//intro message and wait for user input
+		for (int i = 0; i < 10; i++) {//outer for loop to change all values in array to water
+			while (y < 11) {//while loop to display scale
+				y++;//increments up by 1
 			};
-			//cout << endl;
-			if (y == 11&&x==0)
-				x++;
-			//cout << x;
+			if (y == 11&&x==0)//when at the end of the scale it switches to display Y scale
+				x++;//adds 1 to x
 			x++;
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < 10; j++) {//inner for loop to set all values default water.
 
-				cpuHome[i][j] = '~';
-				cpuAway[i][j] = '~';
-				playerAway[i][j] = '~';
-				playerHome[i][j] = '~';
+				cpuHome[i][j] = '~';		//Sets
+				cpuAway[i][j] = '~';		//Grids
+				playerAway[i][j] = '~';		//to
+				playerHome[i][j] = '~';		//Water
 
-				//cout << "	" << cpuHome[i][j];
 			}
-			//cout << endl;
 		}
-		//player setup
-		//computer setup
-
-
-
-		/*playerAway[5][8] = 'H';
-		cout << endl << "CPU Home screen";
-		display(cpuHome, length);
-		cout << "CPU Away screen";
-		display(cpuAway, length);*/
-		cout << "Player Home screen";
-		display(playerHome, length);
-		cout << "Player Away screen";
-		display(playerAway, length);
-		int shipPlacementPosition;
-		//bool XCoord = true;
-		int tempX;
-		int tempY;
-		string coord = "playerSetShip(shipNumber);";
-		int direction;
-		int shiplength;
-		for (int shipNumber = 1; shipNumber <= 15; shipNumber++) {
-			cout << shipNumber<<endl << endl;
-			//shipPlacementPosition = playerSetShip(shipNumber);
-			switch(shipNumber){
-			case 1: tempX = playerSetShip(shipNumber);
+		cout << "Player Home screen";//displays information to let user understand which grid is which
+		display(playerHome, length);//call of display function which displays grid to screen
+		cout << "Player Away screen";//displays information to let user understand which grid is which
+		display(playerAway, length);//call of display function which displays grid to screen
+		//int shipPlacementPosition;
+		int tempX; //modifyable x value that is initially what player selected as X coordinate
+		int tempY; //modifyable x value that is initially what player selected as X coordinate
+		//string coord = "playerSetShip(shipNumber);";
+		int direction;//stores which direction user wishes to have ship lie
+		int shiplength;//value that changes how many slots to display up down left or right depending
+		for (int shipNumber = 1; shipNumber <= 15; shipNumber++) {//runs through switch statement sequentially with logic to revert if player incorrectly inputs info
+			switch(shipNumber){//switch statement decides which ship player is placing
+			case 1: tempX = playerSetShip(shipNumber); //sets X position for ship
 				break;
-			case 2: tempY = playerSetShip(shipNumber);
+			case 2: tempY = playerSetShip(shipNumber);//sets Y position for ship
 				break;
-			case 3: direction = playerSetShip(shipNumber);
-				shiplength = 5;
-				if (direction == 10) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY-shiplength][tempX] == '~') {
-							playerHome[tempY - shiplength][tempX] = '#';
+			case 3: direction = playerSetShip(shipNumber);//sets direction ship will lie
+				shiplength = 5;//sets length of ship//sets length of ship//sets length of ship
+				if (direction == 10) {//if direction is upwards
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY-shiplength][tempX] == '~') {//only displays # if tile is water
+							playerHome[tempY - shiplength][tempX] = '#';//displays # to grid
 						}
-						else {
-							shipNumber = 0;
-							cout << "\n That is an invalid location \n";
+						else {//if input was invalid
+							shipNumber = 0;//reverts to choosing x coord again
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
 					}
 				}			
 				if (direction == 20) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY + shiplength][tempX] == '~') {
-							playerHome[tempY + shiplength][tempX] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY + shiplength][tempX] == '~') {//only displays # if tile is water
+							playerHome[tempY + shiplength][tempX] = '#';//displays # to grid
 						}
-						else {
-							shipNumber = 0;
-							cout << "\n That is an invalid location \n";
+						else {//if input was invalid
+							shipNumber = 0;//reverts to choosing x coord again
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
 					}
 				}
 				if (direction == 30) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY][tempX-shiplength] == '~') {
-							playerHome[tempY][tempX-shiplength] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY][tempX-shiplength] == '~') {//only displays # if tile is water
+							playerHome[tempY][tempX-shiplength] = '#';//displays # to grid
 						}
-						else {
-							shipNumber = 0;
-							cout << "\n That is an invalid location \n";
+						else {//if input was invalid
+							shipNumber = 0;//reverts to choosing x coord again
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
 					}
 				}
 				if (direction == 40) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY][tempX + shiplength] == '~') {
-							playerHome[tempY][tempX + shiplength] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY][tempX + shiplength] == '~') {//only displays # if tile is water
+							playerHome[tempY][tempX + shiplength] = '#';//displays # to grid
 						}
-						else {
-							shipNumber = 0;
-							cout << "\n That is an invalid location \n";
+						else {//if input was invalid
+							shipNumber = 0;//reverts to choosing x coord again
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
 					}
 				}
 				break;
-			case 4: display(playerHome, length);
-				tempX = playerSetShip(shipNumber);
+			case 4: display(playerHome, length);//displays grid to screen
+				tempX = playerSetShip(shipNumber); //sets X position for ship
 				break;
-			case 5: tempY = playerSetShip(shipNumber);
+			case 5: tempY = playerSetShip(shipNumber);//sets Y position for ship;
 				break;
-			case 6: direction = playerSetShip(shipNumber);
-				shiplength = 4;
-				if (direction == 10) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY - shiplength][tempX] == '~') {
-							playerHome[tempY - shiplength][tempX] = '#';
+			case 6: direction = playerSetShip(shipNumber);//sets direction ship will lie
+				shiplength = 4;//sets length of ship//sets length of ship//sets length of ship
+				if (direction == 10) {//if direction is upwards
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY - shiplength][tempX] == '~') {//only displays # if tile is water
+							playerHome[tempY - shiplength][tempX] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 3;
-							cout << "\n That is an invalid location! \n";
+							cout << "\n That is an invalid location! \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
 					}
 				}
 				if (direction == 20) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY + shiplength][tempX] == '~') {
-							playerHome[tempY + shiplength][tempX] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY + shiplength][tempX] == '~') {//only displays # if tile is water
+							playerHome[tempY + shiplength][tempX] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 3;
-							cout << "\n That is an invalid location \n";
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
 					}
 				}
 				if (direction == 30) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY][tempX - shiplength] == '~') {
-							playerHome[tempY][tempX - shiplength] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY][tempX - shiplength] == '~') {//only displays # if tile is water
+							playerHome[tempY][tempX - shiplength] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 3;
-							cout << "\n That is an invalid location \n";
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
 					}
 				}
 				if (direction == 40) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY][tempX + shiplength] == '~') {
-							playerHome[tempY][tempX + shiplength] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY][tempX + shiplength] == '~') {//only displays # if tile is water
+							playerHome[tempY][tempX + shiplength] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 3;
-							cout << "\n That is an invalid location \n";
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
 					}
 				}
 				break;
-			case 7: display(playerHome, length);
-				tempX = playerSetShip(shipNumber);
+			case 7: display(playerHome, length);//displays grid to screen
+				tempX = playerSetShip(shipNumber); //sets X position for ship
 				break;
-			case 8: tempY = playerSetShip(shipNumber);
+			case 8: tempY = playerSetShip(shipNumber);//sets Y position for ship;
 				break;
-			case 9: direction = playerSetShip(shipNumber);
-				shiplength = 3;
-				if (direction == 10) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY - shiplength][tempX] == '~') {
-							playerHome[tempY - shiplength][tempX] = '#';
+			case 9: direction = playerSetShip(shipNumber);//sets direction ship will lie
+				shiplength = 3;//sets length of ship//sets length of ship//sets length of ship
+				if (direction == 10) {//if direction is upwards
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY - shiplength][tempX] == '~') {//only displays # if tile is water
+							playerHome[tempY - shiplength][tempX] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 6;
 							cout << "\n That is an invalid location! \n";
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
 					}
 				}
 				if (direction == 20) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY + shiplength][tempX] == '~') {
-							playerHome[tempY + shiplength][tempX] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY + shiplength][tempX] == '~') {//only displays # if tile is water
+							playerHome[tempY + shiplength][tempX] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 6;
-							cout << "\n That is an invalid location \n";
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
 					}
 				}
 				if (direction == 30) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY][tempX - shiplength] == '~') {
-							playerHome[tempY][tempX - shiplength] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY][tempX - shiplength] == '~') {//only displays # if tile is water
+							playerHome[tempY][tempX - shiplength] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 6;
-							cout << "\n That is an invalid location \n";
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
 					}
 				}
 				if (direction == 40) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY][tempX + shiplength] == '~') {
-							playerHome[tempY][tempX + shiplength] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY][tempX + shiplength] == '~') {//only displays # if tile is water
+							playerHome[tempY][tempX + shiplength] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 6;
-							cout << "\n That is an invalid location \n";
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
 					}
 				}
 				break;
-			case 10: display(playerHome, length);
-				tempX = playerSetShip(shipNumber);
+			case 10: display(playerHome, length);//displays grid to screen
+				tempX = playerSetShip(shipNumber); //sets X position for ship
 				break;
-			case 11: tempY = playerSetShip(shipNumber);
+			case 11: tempY = playerSetShip(shipNumber);//sets Y position for ship;
 				break;
-			case 12: direction = playerSetShip(shipNumber);
-				shiplength = 3;
-				if (direction == 10) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY - shiplength][tempX] == '~') {
-							playerHome[tempY - shiplength][tempX] = '#';
+			case 12: direction = playerSetShip(shipNumber);//sets direction ship will lie
+				shiplength = 3;//sets length of ship//sets length of ship//sets length of ship
+				if (direction == 10) {//if direction is upwards
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY - shiplength][tempX] == '~') {//only displays # if tile is water
+							playerHome[tempY - shiplength][tempX] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 9;
 							cout << "\n That is an invalid location! \n";
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
+
 					}
 				}
 				if (direction == 20) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY + shiplength][tempX] == '~') {
-							playerHome[tempY + shiplength][tempX] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY + shiplength][tempX] == '~') {//only displays # if tile is water
+							playerHome[tempY + shiplength][tempX] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 9;
-							cout << "\n That is an invalid location \n";
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
+
 					}
 				}
 				if (direction == 30) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY][tempX - shiplength] == '~') {
-							playerHome[tempY][tempX - shiplength] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY][tempX - shiplength] == '~') {//only displays # if tile is water
+							playerHome[tempY][tempX - shiplength] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 9;
-							cout << "\n That is an invalid location \n";
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
+
 					}
 				}
 				if (direction == 40) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY][tempX + shiplength] == '~') {
-							playerHome[tempY][tempX + shiplength] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY][tempX + shiplength] == '~') {//only displays # if tile is water
+							playerHome[tempY][tempX + shiplength] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 9;
-							cout << "\n That is an invalid location \n";
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
+
 					}
 				}
 				break;
-			case 13: display(playerHome, length);
-				tempX = playerSetShip(shipNumber);
+			case 13: display(playerHome, length);//displays grid to screen
+				tempX = playerSetShip(shipNumber); //sets X position for ship
 				break;
-			case 14: tempX = playerSetShip(shipNumber);
+			case 14: tempX = playerSetShip(shipNumber); //sets X position for ship
 				break;
-			case 15:  direction = playerSetShip(shipNumber);
-				shiplength = 2;
-				if (direction == 10) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY - shiplength][tempX] == '~') {
-							playerHome[tempY - shiplength][tempX] = '#';
+			case 15:  direction = playerSetShip(shipNumber);//sets direction ship will lie
+				shiplength = 2;//sets length of ship//sets length of ship//sets length of ship
+				if (direction == 10) {//if direction is upwards
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY - shiplength][tempX] == '~') {//only displays # if tile is water
+							playerHome[tempY - shiplength][tempX] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 12;
 							cout << "\n That is an invalid location! \n";
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << tempX << "    " << tempY;
 					}
 				}
 				if (direction == 20) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
 						cout << "DEBUG" << shiplength << " : " << tempX << " : " << tempY;
-						if (playerHome[tempY + shiplength][tempX] == '~') {
-							playerHome[tempY + shiplength][tempX] = '#';
+						if (playerHome[tempY + shiplength][tempX] == '~') {//only displays # if tile is water
+							playerHome[tempY + shiplength][tempX] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 12;
-							cout << "\n That is an invalid location \n";
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
+
 					}
 				}
 				if (direction == 30) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY][tempX - shiplength] == '~') {
-							playerHome[tempY][tempX - shiplength] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY][tempX - shiplength] == '~') {//only displays # if tile is water
+							playerHome[tempY][tempX - shiplength] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 12;
-							cout << "\n That is an invalid location \n";
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
+
 					}
 				}
 				if (direction == 40) {
-					tempX--;
-					tempY--;
-					for (shiplength > 0; shiplength--;) {
-						if (playerHome[tempY][tempX + shiplength] == '~') {
-							playerHome[tempY][tempX + shiplength] = '#';
+					tempX--;//changes x value from 1 base to 0 base
+					tempY--;//changes y value from 1 base to 0 base
+					for (shiplength > 0; shiplength--;) {//displays another # for how long ship is
+						if (playerHome[tempY][tempX + shiplength] == '~') {//only displays # if tile is water
+							playerHome[tempY][tempX + shiplength] = '#';//displays # to grid
 						}
-						else {
+						else {//if input was invalid
 							shipNumber = 12;
-							cout << "\n That is an invalid location \n";
+							cout << "\n That is an invalid location \n";//tells user to re choose position
 						}
-						cout << "Length: " << shiplength << "   temp Y: " << playerHome[tempX][tempY];
+
 					}
 				}
 				break;
 			}
 
-			/*if (shipPlacementPosition % 10 == 0) {
-				cout << shipPlacementPosition / 10 << "Direction";
-				display(playerHome, length);
-				cout << "Player Home Screen";
-				XCoord = true;
-			}
-			else if(XCoord==false) {
-				cout << "Y POS! \n";
-			}
-			else if (XCoord == true) {
-				cout << "X POS! \n";
-				XCoord = false;
-			}*/
-
-			
-
-
-			//cout << shipPlacementPosition;
-			
 		}
 		do {
-			menuSelection = menu();
+			menuSelection = menu();//calls menu location and sets local variable to what user chose
 			
-			if (menuSelection == 1) {
-				/*cout <<endl << "CPU Home screen";
-				display(cpuHome, length);
-				cout << "CPU Away screen";
-				display(cpuAway, length);*/
-				cout << "Player Home screen";
-				display(playerHome, length);
-				cout << "Player Away screen";
-				display(playerAway, length);
+			if (menuSelection == 1) {//if first option is selected
+				cout << "Player Home screen";//tells user what grid is which
+				display(playerHome, length);//displays grid to screen
+				cout << "Player Away screen";//tells user what grid is which
+				display(playerAway, length);//displays grid to screen
 			}
-			if (menuSelection == 2) {
-				int XGuess;
-				int YGuess;
-				cout << endl << "You are firing at the enemy fleet. Enter an integer between 1-10 for the X coordinate: " << endl;
-				XGuess = coordinateSelection(10);
-				cout << endl << "Enter an integer between 1-10 for the Y coordinate: " << endl;
-				YGuess=coordinateSelection(10);
-				cout << XGuess << YGuess;
+			if (menuSelection == 2) {//if second option chosen user gets to fire.
+				int XGuess;//initializes x coord for player guess
+				int YGuess;//initializes y cord for player guess
+				cout << endl << "You are firing at the enemy fleet. Enter an integer between 1-10 for the X coordinate: " << endl;//informs user what is happening for guess
+				XGuess = coordinateSelection(10);//verifies user chooses between 1-10
+				cout << endl << "Enter an integer between 1-10 for the Y coordinate: " << endl;//informs user what is happening for guess
+				YGuess=coordinateSelection(10);//verifies user chooses between 1-10
 			}
-			if (menuSelection == 3) {
-				win = true;
-				losses++;
-				cout << "Quitter.... no one likes a quitter.." << endl;
+			if (menuSelection == 3) {//if menu option 3 is selected by user
+				win = true;//resets game
+				losses++;//adds one to loss counter
+				cout << "Quitter.... no one likes a quitter.." << endl;//informs user of surrender state
 			}
-			//menu();
-			if(win==true)
-				cout << "Wins: " << wins << " Losses: " << losses << endl;
-		} while (!win);
-	} while (keepPlaying);
-	return 0;
+			if(win==true)//if game is over
+				cout << "Wins: " << wins << " Losses: " << losses << endl;//tells user wins and losses
+		} while (!win);//game loop while game is not over
+	} while (keepPlaying);//program loop while user wishes to keep playing
+	return 0;//ends function
 }
-int menu() {
-	int choice = 0;
-	/*for (int i = 0; i < 40; i++) {
-		cout << endl;
-	}*/
-	cout << "If you would like to display the grid enter 1: " << endl << endl << "If you would like to fire enter 2: " <<endl<< endl << "If you would like to surrender enter 3: ";
-	for (int i = 0; i < 10; i++) {
-		cout << endl;
+int menu() {//function definition for menu screen
+	int choice = 0;//resets choice to 0
+	cout << "If you would like to display the grid enter 1: " << endl << endl << "If you would like to fire enter 2: " <<endl<< endl << "If you would like to surrender enter 3: ";// informs user of possible choices
+	for (int i = 0; i < 10; i++) {//adds 10 spaces end line
+		cout << endl;//displays empty line
 	}
 	do {
-		cin >> choice;
-		while (cin.fail()) {
-			cout << "That is not a valid input, enter 1, 2, or 3: " << endl;
-			cin.clear();
-			cin.ignore(100, '\n');
-			cin >> choice;
+		cin >> choice;//inputs user input to select menu item
+		while (cin.fail()) {//if user does not enter valid information
+			cout << "That is not a valid input, enter 1, 2, or 3: " << endl;//informs user of failed input
+			cin.clear();//resets input variable
+			cin.ignore(100, '\n');//resets input variable
+			cin >> choice;//asks for user input again
 		}
-		if (choice >= 1 && choice <= 3) {
-			if (choice == 1)
+		if (choice >= 1 && choice <= 3) {//if input is valid
+			if (choice == 1)//returns 1 to battleship function
 				return 1;
-			if (choice == 2)
+			if (choice == 2)//returns 2 to battleship function
 				return 2;
-			if (choice == 3)
+			if (choice == 3)//returns 3 to battleship function
 				return 3;
 		}
 		else
-			cout << "That is not a valid input enter 1, 2, or 3: " << endl;
-	} while (choice < 1 || choice>3);
+			cout << "That is not a valid input enter 1, 2, or 3: " << endl;//informs user to re choose
+	} while (choice < 1 || choice>3);//if choice is invalid try again
 	return 1;
 }
 
-int coordinateSelection(int max) {
-	int XY;
-	cin >> XY;
-	while (cin.fail() || XY < 1 || XY>max) {
-		cout << "That is not a valid input, enter an integer 1-"<<max << ":" << endl;
-		cin.clear();
-		cin.ignore(100, '\n');
-		cin >> XY;
+int coordinateSelection(int max) {//ensures user enters valid info
+	int XY;//local variable for x or y cord
+	cin >> XY; //inputs user input
+	while (cin.fail() || XY < 1 || XY>max) {//if user inputs invalid character or if out of bounds
+		cout << "That is not a valid input, enter an integer 1-"<<max << ":" << endl;//informs user of invalid response
+		cin.clear();//resets input variable
+		cin.ignore(100, '\n');//resets input variable
+		cin >> XY;//try to enter valid info
 	}
-	return XY;
+	return XY;//returns x or y cord to place where it was called
 }
 
-int playerSetDirection(int ShipDirection) {
-	string direction = "Which direction do you want the ship to point? \n Enter 1, 2, 3, 4 for up, down, left, right, respectively: ";
-	int Face=0;
-	switch(ShipDirection){
-	case 1: cout << direction;
-		Face = coordinateSelection(4);
+int playerSetShip(int shipNumber) {//function definition for choosing x, y, and direction to place ship
+	string direction = "Which direction do you want the ship to point? \n Enter 1, 2, 3, 4 for up, down, left, right, respectively: ";//string shorthand to save time
+	int Pos = 0;//initiates Pos as 0
+	switch (shipNumber) {//switch determined by value passed into this function
+	case 1: cout << "You are placing the Carrier (5 long). Choose a X starting position: ";//tells user to choose X pos
+		Pos = coordinateSelection(10);//ensures user chooses value between 1-10
 		break;
-	case 2: cout << direction;
-		Face = coordinateSelection(4);
+	case 2: cout << "You are placing the Carrier (5 long). Choose a Y starting position: ";//tells user to choose Y pos
+		Pos = coordinateSelection(10);//ensures user chooses value between 1-10
 		break;
-	case 3: cout << direction;
-		Face = coordinateSelection(4);
+	case 3:	cout << "Choose the direction of the ship. 1, 2, 3, or 4 for up, down, left, and right respectively \n";
+		Pos = coordinateSelection(4);//ensures user chooses value between 1-4
+		Pos *= 10;//multiplies by 10 to easily distinguish x,y and direction
 		break;
-	case 4:cout << direction;
-		Face = coordinateSelection(4);
+	case 4: cout << "You are placing the Battleship (4 long). Choose a X starting position: ";//tells user to choose X pos
+		Pos = coordinateSelection(10);//ensures user chooses value between 1-10
 		break;
-	};
-	return Face;
-}
-
-int playerSetShip(int shipNumber) {
-	string direction = "Which direction do you want the ship to point? \n Enter 1, 2, 3, 4 for up, down, left, right, respectively: ";
-	int Pos = 0;
-	switch (shipNumber) {
-	case 1: cout << "You are placing the Carrier (5 long). Choose a X starting position: ";
-		Pos = coordinateSelection(10);
+	case 5: cout << "You are placing the Battleship (4 long). Choose a Y starting position: ";//tells user to choose Y pos
+		Pos = coordinateSelection(10);//ensures user chooses value between 1-10
 		break;
-	case 2: cout << "You are placing the Carrier (5 long). Choose a Y starting position: ";
-		Pos = coordinateSelection(10);
+	case 6:	cout << "Choose the direction of the ship. 1, 2, 3, or 4 for up, down, left, and right respectively \n";
+		Pos = coordinateSelection(4);//ensures user chooses value between 1-4
+		Pos *= 10;//multiplies by 10 to easily distinguish x,y and direction
 		break;
-	case 3: cout << direction;
-		Pos = coordinateSelection(4);
-		Pos *= 10;
+	case 7: cout << "You are placing the Cruiser (3 long). Choose a X starting position: ";//tells user to choose X pos
+		Pos = coordinateSelection(10);//ensures user chooses value between 1-10
 		break;
-	case 4: cout << "You are placing the Battleship (4 long). Choose a X starting position: ";
-		Pos = coordinateSelection(10);
+	case 8: cout << "You are placing the Cruiser (3 long). Choose a Y starting position: ";//tells user to choose Y pos
+		Pos = coordinateSelection(10);//ensures user chooses value between 1-10
 		break;
-	case 5: cout << "You are placing the Battleship (4 long). Choose a Y starting position: ";
-		Pos = coordinateSelection(10);
+	case 9: cout << "Choose the direction of the ship. 1, 2, 3, or 4 for up, down, left, and right respectively \n";
+		Pos = coordinateSelection(4);//ensures user chooses value between 1-4
+		Pos *= 10;//multiplies by 10 to easily distinguish x,y and direction
 		break;
-	case 6: cout << direction;
-		Pos = coordinateSelection(4);
-		Pos *= 10;
+	case 10: cout << "You are placing the Submarine (3 long). Choose a X starting position: ";//tells user to choose X pos
+		Pos = coordinateSelection(10);//ensures user chooses value between 1-10
 		break;
-	case 7: cout << "You are placing the Cruiser (3 long). Choose a X starting position: ";
-		Pos = coordinateSelection(10);
+	case 11: cout << "You are placing the Submarine (3 long). Choose a Y starting position: ";//tells user to choose Y pos
+		Pos = coordinateSelection(10);//ensures user chooses value between 1-10
 		break;
-	case 8: cout << "You are placing the Cruiser (3 long). Choose a Y starting position: ";
-		Pos = coordinateSelection(10);
+	case 12: cout << "Choose the direction of the ship. 1, 2, 3, or 4 for up, down, left, and right respectively \n"; 
+		Pos = coordinateSelection(4);//ensures user chooses value between 1-4
+		Pos *= 10;//multiplies by 10 to easily distinguish x,y and direction
 		break;
-	case 9: cout << direction;
-		Pos = coordinateSelection(4);
-		Pos *= 10;
+	case 13: cout << "You are placing the Destroyer (2 long). Choose a X starting position: ";//tells user to choose X pos
+		Pos = coordinateSelection(10);//ensures user chooses value between 1-10
 		break;
-	case 10: cout << "You are placing the Submarine (3 long). Choose a X starting position: ";
-		Pos = coordinateSelection(10);
+	case 14: cout << "You are placing the Destroyer (2 long). Choose a Y starting position: ";//tells user to choose Y pos
+		Pos = coordinateSelection(10);//ensures user chooses value between 1-10
 		break;
-	case 11: cout << "You are placing the Submarine (3 long). Choose a Y starting position: ";
-		Pos = coordinateSelection(10);
-		break;
-	case 12: cout << direction;
-		Pos = coordinateSelection(4);
-		Pos *= 10;
-		break;
-	case 13: cout << "You are placing the Destroyer (2 long). Choose a X starting position: ";
-		Pos = coordinateSelection(10);
-		break;
-	case 14: cout << "You are placing the Destroyer (2 long). Choose a Y starting position: ";
-		Pos = coordinateSelection(10);
-		break;
-	case 15: cout << direction;
-		Pos = coordinateSelection(4);
-		Pos *= 10;
+	case 15: cout << "Choose the direction of the ship. 1, 2, 3, or 4 for up, down, left, and right respectively \n"; 
+		Pos = coordinateSelection(4);//ensures user chooses value between 1-4
+		Pos *= 10;//multiplies by 10 to easily distinguish x,y and direction
 		break;
 	}
-	return Pos;
+	return Pos;//returns x,y or direction information to where it was called from
 }
-
-//int main2() {
-//	bool keepPlaying = false;
-//	bool win = false;
-//	int x = 2;
-//	int y = 3;
-//	do {
-//		setup();
-//		do {
-//			playerTurn(pos[x][y]);
-//			winCheck();
-//			cpuTurn();
-//			winCheck();
-//		} while (!win);
-//	} while (keepPlaying);
-//	playerHome();
-//}
-
-//void playAgain(bool keepPlaying) {
-//	keepPlaying = false;
-//	do {
-//		int game();
-//		keepPlaying = false;
-//		string input;
-//		cout << "Would you like to play again? \n";
-//		cin >> input;
-//		if (input == "y" || input == "Y" || input == "yes" || input == "Yes") {
-//			keepPlaying = true;
-//		}
-//		
-//	} while (keepPlaying);
-//}
-
-//int playerHome() {
-//	char pos[10][10];
-//	int x=1;
-//	int y=1;
-//	for (int i = 0; i < 10; i++) {
-//		cout << "	";
-//		while(y<11){
-//			cout << y<< "	";
-//			y++;
-//		};
-//		cout << endl;
-//		cout << x;
-//		x++;
-//		for (int j = 0; j < 10; j++) {
-//			
-//			pos[i][j] = '~';
-//			cout << "	" << pos[i][j];
-//		}
-//		cout << endl;
-//	}
-//	return 0;
-//}
